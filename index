@@ -1,0 +1,1177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>NIV Arabic Jeddah</title>
+
+
+  <style>
+
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      margin: 0;
+
+      padding: 10px;
+
+      background: #f5f5f5;
+
+    }
+
+
+    /*
+      Audience filter buttons
+    */
+
+    .filters {
+
+      text-align: center;
+
+      margin: 20px auto;
+
+    }
+
+
+    .filters button {
+
+      padding: 10px 18px;
+
+      margin: 5px;
+
+      border: 1px solid #999;
+
+      border-radius: 6px;
+
+      background: white;
+
+      cursor: pointer;
+
+      font-size: 16px;
+
+    }
+
+
+    .filters button:hover {
+
+      background: #e6eeee;
+
+    }
+
+
+    .filters button.active {
+
+      background: #b5cfd1;
+
+      border-color: #78999b;
+
+      font-weight: bold;
+
+    }
+
+
+    /*
+      Main table
+    */
+
+    table {
+
+      width: 100%;
+
+      max-width: 1200px;
+
+      margin: 30px auto;
+
+      border-collapse: collapse;
+
+      background: white;
+
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    }
+
+
+    th,
+
+    td {
+
+      border: 1px solid #ddd;
+
+      padding: 16px;
+
+      vertical-align: middle;
+
+      text-align: center;
+
+    }
+
+
+    th {
+
+      background: #b5cfd1;
+
+      color: black;
+
+      font-size: 18px;
+
+    }
+
+
+    tr:nth-child(even) {
+
+      background: #fafafa;
+
+    }
+
+
+    /*
+      Audience column
+    */
+
+    .audience {
+
+      font-size: 24px;
+
+      text-align: center;
+
+      width: 100px;
+
+    }
+
+
+    /*
+      Arabic column
+    */
+
+    .arabic {
+
+      direction: rtl;
+
+      text-align: center;
+
+      font-size: 24px;
+
+      line-height: 1.8;
+
+    }
+
+
+    /*
+      Entire Arabic phrase is clickable
+    */
+
+    .arabic-audio-button {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      direction: rtl;
+
+      padding: 4px 10px;
+
+      border: none;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      font-family: inherit;
+
+      font-size: inherit;
+
+      color: inherit;
+
+      border-radius: 8px;
+
+    }
+
+
+    .arabic-audio-button:hover {
+
+      background: #e6eeee;
+
+    }
+
+
+    .arabic-audio-button:focus {
+
+      outline: 2px solid #333;
+
+      outline-offset: 3px;
+
+    }
+
+
+    /*
+      Play icon
+    */
+
+    .play-icon {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      width: 32px;
+
+      height: 32px;
+
+      border: 1px solid #78999b;
+
+      border-radius: 50%;
+
+      background: #b5cfd1;
+
+      font-size: 15px;
+
+      direction: ltr;
+
+      flex-shrink: 0;
+
+    }
+
+
+    /*
+      Pronunciation
+    */
+
+    .pronunciation {
+
+      font-family: monospace;
+
+      font-size: 16px;
+
+      direction: ltr;
+
+      text-align: center;
+
+      margin-top: 8px;
+
+      color: #555;
+
+    }
+
+
+    /*
+      English column
+    */
+
+    .english {
+
+      font-size: 16px;
+
+      line-height: 1.6;
+
+      text-align: center;
+
+      vertical-align: middle;
+
+    }
+
+
+    /*
+      Mobile layout
+    */
+
+    @media (max-width: 700px) {
+
+      body {
+
+        padding: 10px;
+
+      }
+
+
+      table {
+
+        font-size: 14px;
+
+      }
+
+
+      th,
+
+      td {
+
+        padding: 10px;
+
+      }
+
+
+      .arabic {
+
+        font-size: 20px;
+
+      }
+
+
+      .audience {
+
+        width: auto;
+
+      }
+
+
+      .play-icon {
+
+        width: 28px;
+
+        height: 28px;
+
+        font-size: 13px;
+
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!--
+    Audience filters
+  -->
+
+  <div class="filters">
+
+
+    <!--
+      EVERYONE
+
+      Shows ALL phrases:
+      everyone + man + woman + group
+    -->
+
+    <button
+
+      class="active"
+
+      onclick="filterPhrases('all', this)"
+
+    >
+
+      Everyone
+
+    </button>
+
+
+    <!--
+      MAN
+
+      Shows:
+      everyone + man
+    -->
+
+    <button
+
+      onclick="filterPhrases('man', this)"
+
+    >
+
+      Man 🚹
+
+    </button>
+
+
+    <!--
+      WOMAN
+
+      Shows:
+      everyone + woman
+    -->
+
+    <button
+
+      onclick="filterPhrases('woman', this)"
+
+    >
+
+      Woman 🚺
+
+    </button>
+
+
+    <!--
+      GROUP
+
+      Shows:
+      everyone + group
+    -->
+
+    <button
+
+      onclick="filterPhrases('group', this)"
+
+    >
+
+      Group 👥
+
+    </button>
+
+
+  </div>
+
+
+  <!--
+    Phrase table
+  -->
+
+  <table>
+
+
+    <thead>
+
+      <tr>
+
+        <th>Audience</th>
+
+        <th>Arabic</th>
+
+        <th>English</th>
+
+      </tr>
+
+    </thead>
+
+
+    <tbody id="phraseTable"></tbody>
+
+
+  </table>
+
+
+  <script>
+
+
+    /*
+      Phrase data
+
+      Possible audience values:
+
+      "everyone"
+      "man"
+      "woman"
+      "group"
+    */
+
+
+    const phrases = [
+
+
+      /*
+        General phrases
+      */
+
+      {
+
+        audience: "everyone",
+
+        arabic: "السّلامُ عَلَيْكُم",
+
+        pronunciation:
+          "ɪs.sɛ.lɜ́ː.mu ʕæ.léː.kʊm",
+
+        english:
+          "Greetings",
+
+        audio:
+          "audio/salam-alaikum.mp3"
+
+      },
+
+
+      {
+
+        audience: "everyone",
+
+        arabic: "صَباح الْخَيْر",
+
+        pronunciation:
+          "sˁʌ.bʌ́:.ħɪl.xéːr",
+
+        english:
+          "Good morning",
+
+        audio:
+          "audio/sabah-al-khair.mp3"
+
+      },
+
+
+      /*
+        Man-specific phrase
+      */
+
+      {
+
+        audience: "man",
+
+        arabic: "الْجَواز لَوْ سَمَحْت",
+
+        pronunciation:
+          "ɪl.d͡ʒɛ.wɜ́ːz lo sɛ.mɜ́ħt",
+
+        english:
+          "Your passport, please",
+
+        audio:
+          "audio/passport-man.mp3"
+
+      },
+
+
+      /*
+        Woman-specific phrase
+      */
+
+      {
+
+        audience: "woman",
+
+        arabic: "الْجَواز لَوْ سَمَحْتي",
+
+        pronunciation:
+          "ɪl.d͡ʒɛ.wɜ́ːz lo sɛ.mɜ́ħ.ti",
+
+        english:
+          "Your passport, please",
+
+        audio:
+          "audio/passport-woman.mp3"
+
+      },
+
+
+      /*
+        General phrase
+      */
+
+      {
+
+        audience: "everyone",
+
+        arabic: "بَسّ الْجَواز",
+
+        pronunciation:
+          "bɛ́s.sɪl.d͡ʒɛw.ɜ́ːz",
+
+        english:
+          "Just the passport",
+
+        audio:
+          "audio/just-passport.mp3"
+
+      },
+
+
+      /*
+        General phrase
+      */
+
+      {
+
+        audience: "everyone",
+
+        arabic:
+          "أَوَّل شي، حَنَأْخُذ الْبَصَمات",
+
+        pronunciation:
+          "ʔɛ́w.wɛl ʃi, ħɛ.nɜ́ː.xʊ.ðɪl.bʌ.sˁʌ.mʌ́ːt",
+
+        english:
+          "First thing, I'm going to get your fingerprints",
+
+        audio:
+          "audio/fingerprints.mp3"
+
+      },
+
+
+      /*
+        Man-specific
+      */
+
+      {
+
+        audience: "man",
+
+        arabic:
+          "إيدَك الْيَمين عَلى الشاشة",
+
+        pronunciation:
+          "ʔíː.dɛ.kɪl.jɛ.míːn ʕɛ́.lɘʃ.ʃɜ́ːʃɘ",
+
+        english:
+          "[Please place] your right hand on the scanner",
+
+        audio:
+          "audio/right-hand-man.mp3"
+
+      },
+
+
+      {
+
+        audience: "man",
+
+        arabic:
+          "إيدَك الْيَسار عَلى الشاشة",
+
+        pronunciation:
+          "ʔíː.dɛ.kɪl.jɛ.sʌ́:r ʕɛ́.lɘʃ.ʃɜ́ːʃɘ",
+
+        english:
+          "[Please place] your left hand on the scanner",
+
+        audio:
+          "audio/left-hand-man.mp3"
+
+      },
+
+
+      {
+
+        audience: "man",
+
+        arabic:
+          `
+          اِلْمَس الْلَوْحة الزُّرْقة الْلي جَنْبَك
+          <br>
+          وْرَجِّع إيدَك عَلى الشّاشة
+          `,
+
+        pronunciation:
+          `
+          ʔɪ́l.mɛ.sɪl.lóː.ħʌz.zʌ́r.gal.li d͡ʒɛ́m.bɛk,
+          ɪw.rʌ́d͡ʒ.d͡ʒɪʕ ʔíː.dɛk ʕɛlɛʃɜ́ːʃɘ
+          `,
+
+        english:
+          "Tap the blue pad that's next to you and then return your hand to the scanner",
+
+        audio:
+          "audio/blue-pad-man.mp3"
+
+      },
+
+
+      /*
+        Woman-specific
+      */
+
+      {
+
+        audience: "woman",
+
+        arabic:
+          "إيدِك الْيَمين عَلى الشاشة",
+
+        pronunciation:
+          "ʔíː.dɪ.kɪl.jɛ.míːn ʕɛ́.lɘʃ.ʃɜ́ːʃɘ",
+
+        english:
+          "[Please place] your right hand on the scanner",
+
+        audio:
+          "audio/right-hand-woman.mp3"
+
+      },
+
+
+      {
+
+        audience: "woman",
+
+        arabic:
+          "إيدِك الْيَسار عَلى الشاشة",
+
+        pronunciation:
+          "ʔíː.dɪ.kɪl.jɛ.sʌ́:r ʕɛ́.lɘʃ.ʃɜ́ːʃɘ",
+
+        english:
+          "[Please place] your left hand on the scanner",
+
+        audio:
+          "audio/left-hand-woman.mp3"
+
+      },
+
+
+      {
+
+        audience: "woman",
+
+        arabic:
+          `
+          اِلْمَسي الْلَوْحة الزُّرْقة الْلي جَنْبِك
+          <br>
+          وْرَجْعي إيدِك عَلى الشّاشة
+          `,
+
+        pronunciation:
+          `
+          ʔɪ́l.mɛ.sɪl.lóː.ħʌz.zʌ́r.gal.li d͡ʒɛ́m.bɪk,
+          ɪw.rʌ́d͡ʒ.ʕi ʔíː.dɪk ʕɛlɛʃɜ́ːʃɘ
+          `,
+
+        english:
+          "Tap the blue pad that's next to you and then return your hand to the scanner",
+
+        audio:
+          "audio/blue-pad-woman.mp3"
+
+      },
+
+
+      /*
+        Example group-specific phrase
+
+        You can add as many of these
+        as you want.
+      */
+
+      {
+
+        audience: "group",
+
+        arabic:
+          "تَفَضَّلُوا",
+
+        pronunciation:
+          "tˁa.fadˁ.dˁa.luː",
+
+        english:
+          "Please, go ahead / Please come in",
+
+        audio:
+          "audio/tafaddalu-group.mp3"
+
+      }
+
+    ];
+
+
+    /*
+      Currently playing audio
+    */
+
+    let currentAudio = null;
+
+    let currentButton = null;
+
+
+    /*
+      Display phrases
+    */
+
+    function displayPhrases(filter = "all") {
+
+
+      const tableBody =
+        document.getElementById("phraseTable");
+
+
+      tableBody.innerHTML = "";
+
+
+      phrases.forEach((phrase) => {
+
+
+        /*
+          FILTER LOGIC
+
+
+          "all":
+
+          Show everything
+
+          "man":
+
+          Show everyone + man
+
+          "woman":
+
+          Show everyone + woman
+
+          "group":
+
+          Show everyone + group
+        */
+
+
+        let shouldShow = false;
+
+
+        if (filter === "all") {
+
+
+          shouldShow = true;
+
+
+        } else {
+
+
+          shouldShow =
+
+            phrase.audience === "everyone" ||
+
+            phrase.audience === filter;
+
+
+        }
+
+
+        if (!shouldShow) {
+
+
+          return;
+
+
+        }
+
+
+        /*
+          Audience icon
+        */
+
+        let audienceIcon = "";
+
+
+        if (phrase.audience === "man") {
+
+          audienceIcon = "🚹";
+
+        }
+
+
+        if (phrase.audience === "woman") {
+
+          audienceIcon = "🚺";
+
+        }
+
+
+        if (phrase.audience === "group") {
+
+          audienceIcon = "👥";
+
+        }
+
+
+        /*
+          Create row
+        */
+
+        const row =
+          document.createElement("tr");
+
+
+        row.innerHTML = `
+
+
+          <td class="audience">
+
+            ${audienceIcon}
+
+          </td>
+
+
+          <td class="arabic">
+
+
+            <button
+
+              class="arabic-audio-button"
+
+              onclick="playAudio(
+
+                '${phrase.audio}',
+
+                this
+
+              )"
+
+              aria-label="Play audio for ${phrase.english}"
+
+              title="Play audio"
+
+            >
+
+
+              <span class="arabic-text">
+
+                ${phrase.arabic}
+
+              </span>
+
+
+              <span class="play-icon">
+
+                ▶
+
+              </span>
+
+
+            </button>
+
+
+            <div class="pronunciation">
+
+              ${phrase.pronunciation}
+
+            </div>
+
+
+          </td>
+
+
+          <td class="english">
+
+            ${phrase.english}
+
+          </td>
+
+
+        `;
+
+
+        tableBody.appendChild(row);
+
+
+      });
+
+
+    }
+
+
+    /*
+      Play audio
+    */
+
+    function playAudio(audioFile, button) {
+
+
+      /*
+        Stop current audio
+      */
+
+      if (currentAudio) {
+
+        currentAudio.pause();
+
+        currentAudio.currentTime = 0;
+
+      }
+
+
+      /*
+        Reset previous button
+      */
+
+      if (currentButton) {
+
+        currentButton
+
+          .querySelector(".play-icon")
+
+          .textContent = "▶";
+
+      }
+
+
+      /*
+        If same button is clicked
+        while audio is playing,
+        stop audio
+      */
+
+      if (
+
+        currentButton === button &&
+
+        currentAudio &&
+
+        !currentAudio.paused
+
+      ) {
+
+
+        currentAudio = null;
+
+        currentButton = null;
+
+
+        return;
+
+      }
+
+
+      /*
+        Create new audio
+      */
+
+      currentAudio =
+
+        new Audio(audioFile);
+
+
+      currentButton =
+
+        button;
+
+
+      /*
+        Change play icon
+      */
+
+      currentButton
+
+        .querySelector(".play-icon")
+
+        .textContent = "⏸";
+
+
+      /*
+        Play audio
+      */
+
+      currentAudio.play();
+
+
+      /*
+        Reset when finished
+      */
+
+      currentAudio.onended = function () {
+
+
+        currentButton
+
+          .querySelector(".play-icon")
+
+          .textContent = "▶";
+
+
+        currentAudio = null;
+
+        currentButton = null;
+
+
+      };
+
+
+    }
+
+
+    /*
+      Filter phrases
+    */
+
+    function filterPhrases(gender, button) {
+
+
+      /*
+        Stop current audio
+      */
+
+      if (currentAudio) {
+
+
+        currentAudio.pause();
+
+
+        currentAudio.currentTime = 0;
+
+
+        currentAudio = null;
+
+
+      }
+
+
+      /*
+        Reset button
+      */
+
+      if (currentButton) {
+
+
+        currentButton
+
+          .querySelector(".play-icon")
+
+          .textContent = "▶";
+
+
+        currentButton = null;
+
+
+      }
+
+
+      /*
+        Display selected phrases
+      */
+
+      displayPhrases(gender);
+
+
+      /*
+        Remove active state
+      */
+
+      document
+
+        .querySelectorAll(".filters button")
+
+        .forEach((btn) => {
+
+
+          btn.classList.remove("active");
+
+
+        });
+
+
+      /*
+        Highlight selected filter
+      */
+
+      button.classList.add("active");
+
+
+    }
+
+
+    /*
+      Initial display
+
+      Everyone = all entries
+    */
+
+    displayPhrases("all");
+
+
+  </script>
+
+
+</body>
+
+</html>
